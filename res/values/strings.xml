@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DemoTwitterImagePost</string>
+    <string name="action_settings">Settings</string>
+    <string name="twitter_consumer_key">uOB0S7jybyLqNZ1BiMwCA</string>
+    <string name="twitter_consumer_secret">agn9otOyVaq6EZVXMIkCLiElGnsuNj9jsELudoNk</string>
+    <string name="post_image">Post Image</string>
+    <string name="post_tweet">Post Tweet</string>
+
+</resources>
