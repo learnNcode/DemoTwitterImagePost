@@ -7,5 +7,19 @@
     <string name="twitter_consumer_secret">agn9otOyVaq6EZVXMIkCLiElGnsuNj9jsELudoNk</string>
     <string name="post_image">Post Image</string>
     <string name="post_tweet">Post Tweet</string>
+    <string name="authentication_done_now_post_tweet_or_image_text"> Your app is authenticated. Now  you can post tweet/image on twitter. </string>
+
+    <!-- loading messages -->
+    <string name="please_wait_title"> Please wait </string>
+    <string name="authenticating_your_app_message"> Authenticating your app... </string>
+    <string name="posting_image_message"> Uploading image on twitter... </string>
+    <string name="posting_tweet_message"> Posting tweet on twitter... </string>
+
+    <!-- toast -->
+
+    <string name="image_posted_on_twitter"> Image posted on twitter successfully. </string>
+    <string name="tweet_posted_on_twitter"> Tweet posted on twitter successfully. </string>
+    <string name="tweet_with_image_text"> dummy tweet with image. </string>
+    <string name="tweet_text"> dummy tweet. </string>
 
 </resources>
