@@ -25,8 +25,11 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 public class HelperMethods {
+	private static final String TAG = "HelperMethods";
+	
 	public HelperMethods() {}
 
 	public static void postToTwitter(Context context, final Activity callingActivity, final String message, final TwitterCallback postResponse){
@@ -52,7 +55,7 @@ public class HelperMethods {
 				boolean success = true;
 				try {
 					x = Math.random();
-					twitter.updateStatus(message +" "+x);
+					twitter.updateStatus(message + " " + x);
 				} catch (TwitterException e) {
 					e.printStackTrace();
 					success = false;
@@ -102,7 +105,7 @@ public class HelperMethods {
 						status.setMedia(file);
 						twitter.updateStatus(status);
 					}else{
-						System.out.println("----- Invalid File ----------");
+						Log.d(TAG, "----- Invalid File ----------");
 						success = false;
 					}
 				} catch (Exception e) {

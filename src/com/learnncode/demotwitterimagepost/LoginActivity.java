@@ -22,7 +22,7 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,18 +32,21 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity {
 
 	public static final int TWITTER_LOGIN_RESULT_CODE_SUCCESS = 1111;
 	public static final int TWITTER_LOGIN_RESULT_CODE_FAILURE = 2222;
-	protected static final String TAG = "DemoTwitterLoginActivity";
+
+	private static final String TAG = "LoginActivity";
 
 	private WebView twitterLoginWebView;
-	private ProgressDialog mProgressDialog;
+	private AlertDialog mAlertBuilder;
 	private static String twitterConsumerKey;
 	private static String twitterConsumerSecret;
 
@@ -63,21 +66,23 @@ public class LoginActivity extends Activity {
 			LoginActivity.this.finish();
 		}
 
-		mProgressDialog = new ProgressDialog(this);
-		mProgressDialog.setMessage("Please wait...");
-		mProgressDialog.setCancelable(false);
-		mProgressDialog.setCanceledOnTouchOutside(false);
-		mProgressDialog.show();
+
+		mAlertBuilder = new AlertDialog.Builder(this).create();
+		mAlertBuilder.setCancelable(false);
+		mAlertBuilder.setTitle(R.string.please_wait_title);
+		View view = getLayoutInflater().inflate(R.layout.view_loading, null);
+		((TextView) view.findViewById(R.id.messageTextViewFromLoading)).setText(getString(R.string.authenticating_your_app_message));
+		mAlertBuilder.setView(view);
+		mAlertBuilder.show();
+
 
 		twitterLoginWebView = (WebView)findViewById(R.id.twitterLoginWebView);
 		twitterLoginWebView.setBackgroundColor(Color.TRANSPARENT);
-		twitterLoginWebView.setWebViewClient( new WebViewClient()
-		{
+		twitterLoginWebView.setWebViewClient( new WebViewClient(){
 			@Override
-			public boolean shouldOverrideUrlLoading(WebView view, String url)
-			{
-				if( url.contains(AppConstant.TWITTER_CALLBACK_URL))
-				{
+			public boolean shouldOverrideUrlLoading(WebView view, String url){
+
+				if( url.contains(AppConstant.TWITTER_CALLBACK_URL)){
 					Uri uri = Uri.parse(url);
 					LoginActivity.this.saveAccessTokenAndFinish(uri);
 					return true;
@@ -89,17 +94,20 @@ public class LoginActivity extends Activity {
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
 
-				if(mProgressDialog != null) mProgressDialog.dismiss();
+				if(mAlertBuilder != null){
+					mAlertBuilder.cancel();
+				}
 			}
 
 			@Override
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
 
-				if(mProgressDialog != null) mProgressDialog.show();
+				if(mAlertBuilder != null){
+					mAlertBuilder.show();
+				}
 			}
 		});
-
 
 		Log.d(TAG, "Authorize....");
 		askOAuth();
@@ -109,7 +117,9 @@ public class LoginActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 
-		if(mProgressDialog != null) {mProgressDialog.dismiss();}
+		if(mAlertBuilder != null) {
+			mAlertBuilder.dismiss();
+		}
 	}
 
 	@Override
@@ -134,14 +144,18 @@ public class LoginActivity extends Activity {
 					e.putString(AppConstant.SHARED_PREF_KEY_TOKEN, accessToken.getToken()); 
 					e.putString(AppConstant.SHARED_PREF_KEY_SECRET, accessToken.getTokenSecret()); 
 					e.commit();
-					
-					Log.d(TAG, "TWITTER LOGIN SUCCESS ----TOKEN "+accessToken.getToken());
-					Log.d(TAG, "TWITTER LOGIN SUCCESS ----TOKEN SECRET "+accessToken.getTokenSecret());
+
+					Log.d(TAG, "TWITTER LOGIN SUCCESS ----TOKEN " + accessToken.getToken());
+					Log.d(TAG, "TWITTER LOGIN SUCCESS ----TOKEN SECRET " + accessToken.getTokenSecret());
 					LoginActivity.this.setResult(TWITTER_LOGIN_RESULT_CODE_SUCCESS);
 				} catch (Exception e) { 
 					e.printStackTrace();
-					if(e.getMessage() != null) Log.e(TAG, e.getMessage());
-					else Log.e(TAG, "ERROR: Twitter callback failed");
+					if(e.getMessage() != null){
+						Log.e(TAG, e.getMessage());
+
+					}else{
+						Log.e(TAG, "ERROR: Twitter callback failed");
+					}
 					LoginActivity.this.setResult(TWITTER_LOGIN_RESULT_CODE_FAILURE);
 				}
 				LoginActivity.this.finish();
@@ -190,7 +204,7 @@ public class LoginActivity extends Activity {
 					LoginActivity.this.runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							mProgressDialog.cancel();
+							mAlertBuilder.cancel();
 							Toast.makeText(LoginActivity.this, errorString.toString(), Toast.LENGTH_SHORT).show();
 							finish();
 						}
@@ -207,5 +221,5 @@ public class LoginActivity extends Activity {
 			}
 		}).start();
 	}
-	
+
 }
