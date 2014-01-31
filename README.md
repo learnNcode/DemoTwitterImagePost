@@ -3,7 +3,15 @@ DemoTwitterImagePost
 
 Demo which will show you how to set up  twitter app n post a tweet / upload image to twitter. 
 
+ChangeLog
+=======================================
+version 1.0.1
 
+__1]__ UI related modifications.
+
+
+Usage
+======================================
 First and foremost you should have a valid twitter app configured correctly to post on twitter.
 
 In case you don't have an app on twitter, follow the steps below to create a simple twitter app and how to configure it correctly.
