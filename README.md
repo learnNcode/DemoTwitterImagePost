@@ -55,7 +55,7 @@ Ex:
 <string name= "twitter_consumer_secret">YOUR_CONSUMER_SECRET</string>
 ```
 
-![Create App](https://dl.dropboxusercontent.com/u/61919232/learnNcode/DemoTwitterPost/4_twit_key_secret_striked.jpg)
+![Create App](https://dl.dropboxusercontent.com/u/61919232/learnNcode/DemoTwitterPost/4_twit_key_secret_striked.png)
 
 In our activity we have two buttons:
 
@@ -68,7 +68,7 @@ On button click we will check whether the app is already authorized if not we wi
 We will be using the custom webview to authorize the app so that once the app is authorized, you can finish the webview else you will be stuck with a common issue where the view remains opened even after the app is authorized.
 
 
-![Create App](https://dl.dropboxusercontent.com/u/61919232/learnNcode/DemoTwitterPost/5_twit_calback_screen_cropped.jpg)
+![Create App](https://dl.dropboxusercontent.com/u/61919232/learnNcode/DemoTwitterPost/5_twit_calback_screen_cropped.png)
 
 The authorization logic is written in LoginActivity class.
 
